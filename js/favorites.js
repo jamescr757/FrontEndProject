@@ -1,4 +1,4 @@
-// const ingredients = ['2 tbs Olive Oil', '1 medium finely diced Onion', '250g Chickpeas', '1.5L Vegetable Stock', '1 tsp Cumin', '5 cloves Garlic', '1/2 tsp Salt', '1 tsp Harissa Spice', 'Pinch Pepper', '1/2 Lime']
+// const shoppingList = {};
 
 // fetch('https://zestful.p.rapidapi.com/parseIngredients', {
 //     headers: {
@@ -12,6 +12,37 @@
 // .then(response => response.json())
 // .then(data => {
 //     console.log(data);
+// })
+
+// fetch('https://zestful.p.rapidapi.com/parseIngredients', {
+//     headers: {
+//         'content-type': 'application/json',
+//         'x-rapidapi-host': 'zestful.p.rapidapi.com',
+//         'x-rapidapi-key': rapidAPIkey
+//     },
+//     method: "POST",
+//     body: JSON.stringify({ingredients: ingredientList})  
+// })
+// .then(response => response.json())
+// .then(data => {
+//     console.log(data);
+//     for (const item of data.results) {
+//         if (!(item.ingredientParsed.product in shoppingList)) {
+//             shoppingList[item.ingredientParsed.product] = [createShoppingListObj(item)];
+//         } else {
+//             let sameUnit = false;
+//             for (const obj of shoppingList[item.ingredientParsed.product]) {
+//                 if (obj.unit === item.ingredientParsed.unit) {
+//                     sameUnit = true;
+//                     obj.quantity += item.ingredientParsed.quantity;
+//                 }
+//             }
+//             if (!sameUnit) {
+//                 shoppingList[item.ingredientParsed.product].push(createShoppingListObj(item));
+//             }
+//         }
+//     }
+//     console.log(shoppingList);
 // })
 
 // data.results is an array of parse ingredients
