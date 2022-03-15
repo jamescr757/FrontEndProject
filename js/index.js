@@ -16,15 +16,6 @@ const createIngredientStrings = meal => {
     return [list, bullets];
 }
 
-const createShoppingListObj = item => {
-    return {
-        product: item.ingredientParsed.product,
-        quantity: item.ingredientParsed.quantity,
-        unit: item.ingredientParsed.unit,
-        rawString: item.ingredientRaw
-    }
-}
-
 fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealSearch}`)
 .then(response => response.json())
 .then(data => {

@@ -1,5 +1,14 @@
 // const shoppingList = {};
 
+// const createShoppingListObj = item => {
+//     return {
+//         product: item.ingredientParsed.product,
+//         quantity: item.ingredientParsed.quantity,
+//         unit: item.ingredientParsed.unit,
+//         rawString: item.ingredientRaw
+//     }
+// }
+
 // fetch('https://zestful.p.rapidapi.com/parseIngredients', {
 //     headers: {
 //     'content-type': 'application/json',
