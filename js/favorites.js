@@ -1,8 +1,4 @@
-// const ingredients = [
-//     '2 1/2 tablespoons finely chopped parsley',
-//     '3 tablespoons extra-virgin olive oil, or more to taste',
-//     '1 1/2 tbsp cinnamon'
-// ]
+// const ingredients = ['2 tbs Olive Oil', '1 medium finely diced Onion', '250g Chickpeas', '1.5L Vegetable Stock', '1 tsp Cumin', '5 cloves Garlic', '1/2 tsp Salt', '1 tsp Harissa Spice', 'Pinch Pepper', '1/2 Lime']
 
 // fetch('https://zestful.p.rapidapi.com/parseIngredients', {
 //     headers: {
