@@ -1,4 +1,18 @@
 // const shoppingList = {};
+// let ingredientList = [];
+// let ingredientBullets = [];
+
+// const createIngredientStrings = meal => {
+//     const list = [];
+//     const bullets = [];
+//     let count = 1;
+//     while (meal[`strMeasure${count}`].trim()) {
+//         list.push(meal[`strMeasure${count}`].trim() + " " + meal[`strIngredient${count}`]);
+//         bullets.push(meal[`strIngredient${count}`].trim() + " - " + meal[`strMeasure${count}`]);
+//         count++;
+//     }
+//     return [list, bullets];
+// }
 
 // const createShoppingListObj = item => {
 //     return {
@@ -8,6 +22,21 @@
 //         rawString: item.ingredientRaw
 //     }
 // }
+
+
+// ============== REMOVING DUPLICATES BEFORE RENDERING =====================
+
+// let selections = JSON.parse(localStorage.getItem("selections"));
+// const selectionsHash = {};
+// for (const meal of selections) {
+//     if (!(meal.strMeal in selectionsHash)) selectionsHash[meal.strMeal] = meal;
+// }
+// selections = [];
+// for (const meal in selectionsHash) {
+//     selections.push(selectionsHash[meal]);
+// }
+// localStorage.setItem("selections", JSON.stringify(selections));
+
 
 // fetch('https://zestful.p.rapidapi.com/parseIngredients', {
 //     headers: {
