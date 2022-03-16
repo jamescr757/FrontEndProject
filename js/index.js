@@ -1,9 +1,9 @@
-// const areaSearch = "Canadian";
-// const categorySearch = "Vegetarian";
 const meals = ["chicken", "soup", "beef", "pork"];
 const userSearch = document.getElementById("userSearch");
 const searchBtn = document.getElementById("searchButton");
 const searchText = document.querySelector(".search-text");
+const modalTitle = document.querySelector(".modal-title");
+const modalBody = document.querySelector(".modal-body");
 
 
 const pickRandomMeal = () => {
@@ -14,6 +14,16 @@ const pickRandomMeal = () => {
 const updateSelectionsInStorage = (selections, item) => {
     selections.push(item);
     localStorage.setItem("selections", JSON.stringify(selections));
+}
+
+const createIngredientBullets = meal => {
+    const bullets = [];
+    let count = 1;
+    while (meal[`strMeasure${count}`] && meal[`strMeasure${count}`].trim()) {
+        bullets.push(meal[`strIngredient${count}`].trim() + " - " + meal[`strMeasure${count}`]);
+        count++;
+    }
+    return bullets;
 }
 
 const addMealToSelections = itemName => {
@@ -48,6 +58,25 @@ const retrieveMealFromStorage = event => {
     return JSON.parse(sessionStorage.getItem(event.target.attributes.value.value));
 }
 
+const ingredientListHTML = (meal) => {
+    let html = ["<ul>"];
+    const bulletList = createIngredientBullets(meal);
+    for (const bullet of bulletList) {
+        html.push(`<li>${bullet}</li>`);
+    }
+    html.push("</ul>");
+    return html.join("");
+}
+
+const displayRecipeInfo = event => {
+    if (event.target.attributes && event.target.attributes.value) {
+        const mealObj = retrieveMealFromStorage(event);
+        modalTitle.innerText = mealObj.strMeal;
+        modalBody.innerHTML = ingredientListHTML(mealObj);
+        modalBody.innerHTML += `<p>${mealObj.strInstructions}</p>`;
+    }
+}
+
 const removeCards = () => {
     while (document.querySelector(".cardContainer")) {
         document.body.removeChild(document.querySelector(".cardContainer"))
@@ -57,6 +86,7 @@ const removeCards = () => {
 const renderCardContainer = (cardContainer, htmlString) => {
     cardContainer.innerHTML = htmlString;
     cardContainer.addEventListener("click", changeIconAndUpdateSelections);
+    cardContainer.addEventListener("click", displayRecipeInfo);
     document.body.appendChild(cardContainer);
 }
 
@@ -80,7 +110,7 @@ const renderMealCards = data => {
             <i class="fa-solid fa-circle-plus fa-circle-not-selected fa-2xl ${data.meals[idx].strMeal}"></i>
             <i class="fa-solid fa-circle fa-2xl"></i>
             <h5 class="card-title">${data.meals[idx].strMeal}</h5>
-            <button class="btn btn-warning" value="${data.meals[idx].strMeal}">Description</button>
+            <button class="btn btn-warning" value="${data.meals[idx].strMeal}" data-toggle="modal" data-target="#myModal">View Recipe</button>
         </div>`;
         if ((idx + 1) % 3 === 0) renderCardContainer(cardContainer, html);
     }
@@ -159,6 +189,7 @@ unselected
 
 // ======================= CATEGORY SEARCH ======================================
 
+// const categorySearch = "Vegetarian";
 // fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categorySearch}`)
 // .then(response => response.json())
 // .then(data => {
@@ -172,6 +203,7 @@ unselected
 
 // ======================= AREA SEARCH ======================================
 
+// const areaSearch = "Canadian";
 // fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${areaSearch}`)
 // .then(response => response.json())
 // .then(data => {

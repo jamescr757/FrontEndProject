@@ -2,16 +2,24 @@
 // let ingredientList = [];
 // let ingredientBullets = [];
 
-// const createIngredientStrings = meal => {
-//     const list = [];
+// const createIngredientBullets = meal => {
 //     const bullets = [];
 //     let count = 1;
 //     while (meal[`strMeasure${count}`].trim()) {
-//         list.push(meal[`strMeasure${count}`].trim() + " " + meal[`strIngredient${count}`]);
 //         bullets.push(meal[`strIngredient${count}`].trim() + " - " + meal[`strMeasure${count}`]);
 //         count++;
 //     }
-//     return [list, bullets];
+//     return bullets;
+// }
+
+// const createIngredientList = meal => {
+//     const list = [];
+//     let count = 1;
+//     while (meal[`strMeasure${count}`].trim()) {
+//         list.push(meal[`strMeasure${count}`].trim() + " " + meal[`strIngredient${count}`]);
+//         count++;
+//     }
+//     return list;
 // }
 
 // const createShoppingListObj = item => {
