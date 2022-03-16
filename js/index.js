@@ -1,36 +1,36 @@
 // const areaSearch = "Canadian";
 // const categorySearch = "Vegetarian";
-const mealSearch = "soup";
-let ingredientList = [];
-let ingredientBullets = [];
+// const mealSearch = "soup";
+// let ingredientList = [];
+// let ingredientBullets = [];
 
-const createIngredientStrings = meal => {
-    const list = [];
-    const bullets = [];
-    let count = 1;
-    while (meal[`strMeasure${count}`].trim()) {
-        list.push(meal[`strMeasure${count}`].trim() + " " + meal[`strIngredient${count}`]);
-        bullets.push(meal[`strIngredient${count}`].trim() + " - " + meal[`strMeasure${count}`]);
-        count++;
-    }
-    return [list, bullets];
-}
+// const createIngredientStrings = meal => {
+//     const list = [];
+//     const bullets = [];
+//     let count = 1;
+//     while (meal[`strMeasure${count}`].trim()) {
+//         list.push(meal[`strMeasure${count}`].trim() + " " + meal[`strIngredient${count}`]);
+//         bullets.push(meal[`strIngredient${count}`].trim() + " - " + meal[`strMeasure${count}`]);
+//         count++;
+//     }
+//     return [list, bullets];
+// }
 
-fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealSearch}`)
-.then(response => response.json())
-.then(data => {
-    console.log(data);
+// fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealSearch}`)
+// .then(response => response.json())
+// .then(data => {
+//     console.log(data);
     
-    for (let idx = 0; idx < 6; idx++) {
-        ingredientList = [...ingredientList, ...createIngredientStrings(data.meals[idx])[0]]; 
-        ingredientBullets = [...ingredientBullets, ...createIngredientStrings(data.meals[idx])[1]];
-    }
+//     for (let idx = 0; idx < 6; idx++) {
+//         ingredientList = [...ingredientList, ...createIngredientStrings(data.meals[idx])[0]]; 
+//         ingredientBullets = [...ingredientBullets, ...createIngredientStrings(data.meals[idx])[1]];
+//     }
     // console.log(ingredientList);
     
     // for (const meal of data.meals) {
     //     sessionStorage.setItem(meal.strMeal, JSON.stringify(meal))
     // }
-})
+// })
     
 
 // data.meals is an array of recipes 
