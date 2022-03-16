@@ -4,7 +4,6 @@ body{
 
 .header{
     height: 500px;
-    background-color: pink;
     overflow: hidden;
     position: relative;
 }
