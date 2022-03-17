@@ -30,9 +30,11 @@ body{
     font-size: 60px;
     
 }
+
 .navbar-nav{
-display: flex;
-justify-content: center;
+  display: flex;
+  justify-content: center;
+}
 
 }
 .nav-item{
@@ -40,11 +42,13 @@ justify-content: center;
     font-size: 25px;
     font-weight: 200;
 }
+
 .cardContainer{
     display: flex;
     justify-content:center;
     margin: 50px;
 }
+
 .card{
     margin: 30px;
     width: 400px;
@@ -68,19 +72,19 @@ h5{
     text-align: center;
     margin-top: 24px;
 }
+
 .bi-plus-circle{
     width: 400px;
     position: absolute;
     left: 97%;
    margin:-1px;
    color: yellow;
-
 }
-.instruction{
+
+.search-text{
     display: flex;
     margin: 0px 50px 0px 50px;
     justify-content: center;
-
 
 }
 
@@ -166,37 +170,51 @@ h5{
     right: 4px;
     top: 20px;
     /* top:8px; */
-
-    z-index: 1;
-    
+    z-index: 1;   
 }
 
 .fa-circle {
     position: absolute;
-
     color: black;
-
     top: 20px;
     right: 4px;
 }
  footer{
+     display: flex;
      background-color:#343a40;
+     color: white;
+     justify-content: space-between;
      height: 90px;
  }
  .devTeam{
-     display: flex;
-     align-items: flex-end;
-     flex-direction: column;
-     color: white;
-     list-style-type: none;
-     margin-right: 15px;
-     justify-content: flex-end;
+    list-style-type: none;
+    margin: 24px 80px;
+    line-height: 35px;
  }
+
+ .api{
+    list-style-type: none;
+    margin: 24px 80px;
+    line-height: 35px;
+ }
+
+.apiLink{
+    color: white;    
+}
+
+.apiLink:hover{
+    color:rgb(236, 182, 4);
+}
+
+.copyright{
+    display: flex;
+    flex-direction: column-reverse;
+    padding-bottom: 10px;
+}
 
  .navbar-nav{
 display: flex;
 justify-content: center;
-
 }
 
 .left-aligned{
@@ -246,3 +264,68 @@ justify-content: center;
     color: rgb(236, 182, 4);
     font-weight: 500;
 }
+
+.yourSelectionsPage{
+    display: flex;
+    flex-direction: row;
+    margin: 50px;
+    justify-content: center;
+    font-size: 30px;
+}
+
+@media only screen and (max-width: 768px){
+    .yourSelectionsPage{
+        align-items: center;
+        flex-direction: column-reverse;
+        margin-top: 30px;
+    }
+}
+
+.yourSelectionsHeader{
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.yourSelectionsCardContainer{
+    display: flex;
+    justify-content:center;
+    flex-direction: row;
+}
+
+@media only screen and (max-width: 1024px){
+    .yourSelectionsCardContainer{
+        align-items: center;
+        flex-direction: column;
+        margin-top: 16px;
+    }
+}
+
+.groceryList{
+    line-height: 36px;
+    min-width: 400px;
+}
+
+.groceryListItems{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 20px;
+    line-height: 48px;
+    margin-top: 30px;
+}
+
+.circle-yellow {
+    position: absolute;
+    color: rgb(236, 182, 4);
+    top: 26px;
+    right: 4px;
+}
+
+.fa-trash-can {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 1;
+} 
