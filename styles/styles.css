@@ -4,7 +4,6 @@ body{
 
 .header{
     height: 500px;
-    background-color: pink;
     overflow: hidden;
     position: relative;
 }
@@ -41,10 +40,6 @@ body{
     width: 400px;
 }
 
-.card-img-top{
-    
-}
-
 .nav-link{
     color: white
 }
@@ -62,6 +57,34 @@ body{
 h5{
     text-align: center;
     margin-top: 24px;
+}
+
+.fa-circle-plus{
+    color: rgb(236, 182, 4);
+    position: absolute;
+    right: 4px;
+    top: 20px;
+    z-index: 1;
+}
+
+.fa-circle-not-selected{
+    color: white;
+    position: absolute;
+    right: 4px;
+    top: 20px;
+    z-index: 1;
+    
+}
+
+.fa-circle {
+    position: absolute;
+    color: black;
+    top: 20px;
+    right: 4px;
+}
+
+.fa-solid {
+    cursor: pointer;
 }
 
 
