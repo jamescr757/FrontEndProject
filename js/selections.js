@@ -1,5 +1,8 @@
 const selectionsContainer = document.querySelector(".yourSelections");
 const groceryListTag = document.querySelector(".groceryListItems");
+const listCardTitle = document.querySelector(".card-title");
+const selectionsPage = document.querySelector(".yourSelectionsPage");
+const footerTag = document.querySelector("footer");
 
 const createIngredientList = meal => {
     const list = [];
@@ -11,11 +14,13 @@ const createIngredientList = meal => {
     return list;
 }
 
+const capitalize = string => string[0].toUpperCase() + string.slice(1);
+
 const createIngredientBullets = meal => {
     const bullets = [];
     let count = 1;
     while (meal[`strMeasure${count}`] && meal[`strMeasure${count}`].trim()) {
-        bullets.push(meal[`strIngredient${count}`].trim() + " - " + meal[`strMeasure${count}`]);
+        bullets.push(capitalize(meal[`strIngredient${count}`].trim()) + " - " + meal[`strMeasure${count}`]);
         count++;
     }
     return bullets;
@@ -42,8 +47,6 @@ const removeSelectionDuplicates = () => {
     }
     localStorage.setItem("selections", JSON.stringify(selections));
 }
-
-const capitalize = string => string[0].toUpperCase() + string.slice(1);
 
 const renderQuantity = value => !value ? "" : Math.round(value * 100) / 100;
 
@@ -141,14 +144,67 @@ const removeCards = () => {
     }
 }
 
+const renderFooter = (addMargin=false) => {
+    const footerTag = document.createElement("footer");
+    footerTag.innerHTML = `
+    <ul class="api">
+        APIs used:
+        <li><a class="apiLink" href="https://www.themealdb.com/">TheMealDB</a></li>
+        <li><a class="apiLink" href="https://zestfuldata.com/">Zestful</a></li>
+    </ul>
+    <span class="copyright">© 2022 Recipe Box</span>
+    <ul class="devTeam">
+        <li>  <i class="bi bi-linkedin"> </i>  <i class="bi bi-github"></i> James Riddle</li>
+        <li>  <i class="bi bi-linkedin"> </i>  <i class="bi bi-github"></i> Chloe Wieser</li>
+        <li>  <i class="bi bi-linkedin"></i>  <i class="bi bi-github"></i> Veronica Taucci</li>
+    </ul>`;
+    if (addMargin) footerTag.className = "mt-5"
+    document.body.appendChild(footerTag);
+}
+
+const clearMainContent = () => {
+    document.body.removeChild(selectionsPage);
+    document.body.removeChild(footerTag);
+}
+
+const renderMealTitle = meal => {
+    const titleTag = document.createElement("div");
+    titleTag.className = "mealName";
+    titleTag.innerText = meal.strMeal;
+    document.body.appendChild(titleTag);
+}
+
+const renderMealImageAndMethod = meal => {
+    const container = document.createElement("div");
+    container.className = "mealPrep";
+    container.innerHTML = `
+    <img src="${meal.strMealThumb}" class="prepImage2 card-img-top mb-4" alt="${meal.strMeal}">
+    <div class="imgList">
+        <img src="${meal.strMealThumb}" class="prepImage card-img-top" alt="${meal.strMeal}"> 
+        <p class="method">Method</p>
+        <p class="mealMethod">${meal.strInstructions}</p>
+    </div>`;
+    document.body.appendChild(container);
+}
+
+const renderIngredientList = meal => {
+    const container = document.querySelector(".mealPrep");
+    const listContainer = document.createElement("div");
+    listContainer.className = "ingredients card shadow rounded";
+    let listHTML = "<h5 class='card-title text-center mt-1 pt-2'>Ingredients</h5>";
+    listHTML += ingredientListHTML(meal);
+    listContainer.innerHTML = listHTML;
+    container.appendChild(listContainer);
+}
+
 const displayMeal = event => {
     if (event.target.attributes && event.target.attributes.value) {
-        removeCards();
+        clearMainContent();
         const mealObj = retrieveMealFromStorage(event);
-        shoppingListTitle.innerText = mealObj.strMeal;
-        mealImage.setAttribute("src", mealObj.strMealThumb);
-        shoppingList.innerHTML = ingredientListHTML(mealObj);
-        mealInstructions.innerHTML += `<p>${mealObj.strInstructions}</p>`;
+        renderMealTitle(mealObj);
+        renderMealImageAndMethod(mealObj);
+        renderIngredientList(mealObj);
+        renderFooter();
     }
 }
 
@@ -203,7 +259,7 @@ const selectionsDelete = event => {
 const renderCardContainer = (cardContainer, htmlString) => {
     cardContainer.innerHTML = htmlString;
     cardContainer.addEventListener("click", selectionsDelete);
-    // cardContainer.addEventListener("click", displayMeal);
+    cardContainer.addEventListener("click", displayMeal);
     selectionsContainer.appendChild(cardContainer);
 }
 

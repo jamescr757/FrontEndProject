@@ -360,8 +360,8 @@ justify-content: center;
 
 @media only screen and (max-width: 1024px){
     .mealPrep {
-    flex-direction: column;
-    padding: 20px;
+        flex-direction: column;
+        padding: 20px;
     }
     .imgList{
         width: 100%;
