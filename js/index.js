@@ -138,7 +138,7 @@ const searchForMeals = async event => {
 }
 
 
-searchBtn.addEventListener("click", searchForMeals, event);
+searchBtn.addEventListener("click", searchForMeals);
 
 
 const onPageVisit = async () => {
