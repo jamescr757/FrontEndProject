@@ -1,3 +1,6 @@
+const selectionsContainer = document.querySelector(".yourSelections");
+const groceryListTag = document.querySelector(".groceryListItems");
+
 const createIngredientList = meal => {
     const list = [];
     let count = 1;
@@ -40,7 +43,9 @@ const removeSelectionDuplicates = () => {
     localStorage.setItem("selections", JSON.stringify(selections));
 }
 
-const renderQuantity = value => !value ? "" : value;
+const capitalize = string => string[0].toUpperCase() + string.slice(1);
+
+const renderQuantity = value => !value ? "" : Math.round(value * 100) / 100;
 
 const renderUnit = (quantity, unit) => {
     if (quantity && unit) return ` ${unit}`;
@@ -52,7 +57,7 @@ const shoppingListHTML = shoppingList => {
     let html = ["<ul>"];
     for (const item in shoppingList) {
         if (shoppingList[item].length > 1) {
-            html.push(`<li>${shoppingList[item].product}<ul>`);
+            html.push(`<li>${capitalize(shoppingList[item][0].product)}<ul>`);
             for (const unitType of shoppingList[item]) {
                 const htmlFragment = `<li>${renderQuantity(unitType.quantity)}${renderUnit(unitType.quantity, unitType.unit)}</li>`;
                 if (htmlFragment === "<li></li>") continue;
@@ -60,9 +65,9 @@ const shoppingListHTML = shoppingList => {
             }
             html.push("</ul></li>");
         } else {
-            if (shoppingList[item][0].quantity || shoppingList[item][0].product) {
-                html.push(`<li>${shoppingList[item][0].product} - ${renderQuantity(shoppingList[item][0].quantity)}${renderUnit(shoppingList[item][0].quantity, shoppingList[item][0].unit)}<li>`);
-            } else html.push(`<li>${shoppingList[item][0].product}</li>`);
+            if (shoppingList[item][0].quantity || shoppingList[item][0].unit) {
+                html.push(`<li>${capitalize(shoppingList[item][0].product)} - ${renderQuantity(shoppingList[item][0].quantity)}${renderUnit(shoppingList[item][0].quantity, shoppingList[item][0].unit)}</li>`);
+            } else html.push(`<li>${capitalize(shoppingList[item][0].product)}</li>`);
         }
     }
     html.push("</ul>");
@@ -72,17 +77,20 @@ const shoppingListHTML = shoppingList => {
 const buildShoppingList = data => {
     const shoppingList = {};
     for (const item of data.results) {
-        if (!(item.ingredientParsed.product in shoppingList)) {
-            shoppingList[item.ingredientParsed.product] = [createShoppingListObj(item)];
+        const itemName = item.ingredientParsed.product.toLowerCase();
+        if (!(itemName in shoppingList)) {
+            shoppingList[itemName] = [createShoppingListObj(item)];
         } else {
             let sameUnit = false;
-            for (const obj of shoppingList[item.ingredientParsed.product]) {
+            for (const obj of shoppingList[itemName]) {
                 if (obj.unit === item.ingredientParsed.unit) {
                     sameUnit = true;
                     obj.quantity += item.ingredientParsed.quantity;
                 }
             }
-            if (!sameUnit) shoppingList[item.ingredientParsed.product].push(createShoppingListObj(item));
+            if (!sameUnit && (item.ingredientParsed.unit || item.ingredientParsed.quantity)) {
+                shoppingList[itemName].push(createShoppingListObj(item));
+            }
         }
     }
     return shoppingList;
@@ -102,7 +110,7 @@ const fetchParsedIngredients = async ingredientList => {
 }
 
 const renderShoppingList = async () => {
-    const meals = localStorage.getItem("selections");
+    const meals = JSON.parse(localStorage.getItem("selections"));
     let ingredientList = [];
     for (const meal of meals) {
         ingredientList = [...ingredientList, ...createIngredientList(meal)]
@@ -110,7 +118,7 @@ const renderShoppingList = async () => {
     const parsedIngredients = await fetchParsedIngredients(ingredientList);
     const shoppingList = buildShoppingList(parsedIngredients);
     const listHTML = shoppingListHTML(shoppingList);
-    // shoppingListContainer.innerHTML = listHTML;
+    groceryListTag.innerHTML = listHTML;
 }
 
 const retrieveMealFromStorage = event => {
@@ -128,8 +136,8 @@ const ingredientListHTML = (meal) => {
 }
 
 const removeCards = () => {
-    while (document.querySelector(".cardContainer")) {
-        document.body.removeChild(document.querySelector(".cardContainer"))
+    while (document.querySelector(".yourSelectionsCardContainer")) {
+        selectionsContainer.removeChild(document.querySelector(".yourSelectionsCardContainer"))
     }
 }
 
@@ -150,38 +158,30 @@ const removeMealFromSelections = itemName => {
     localStorage.setItem("selections", JSON.stringify(selections));
 }
 
-const selectionsDelete = event => {
-    const classString = event.target.className.split(" ");
-    if (classString[2] === "fa-circle-not-selected") {
-        const itemName = classString.slice(3).join(" ");
-        removeMealFromSelections(itemName);
-        renderMealCards();
-        renderShoppingList();
-    }
+const noSelectionsMessage = () => {
+    h5tag = document.createElement("h5");
+    h5tag.innerHTML = `<h5>Please visit our <a href="../index.html">home</a> page to select a few meals</h5>`;
+    selectionsContainer.appendChild(h5tag);
+    groceryListTag.innerHTML = "<p>No ingredients to display</p>";
 }
 
-const renderCardContainer = (cardContainer, htmlString) => {
-    cardContainer.innerHTML = htmlString;
-    cardContainer.addEventListener("click", selectionsDelete);
-    cardContainer.addEventListener("click", displayMeal);
-    document.body.appendChild(cardContainer);
-}
-
-const renderMealCards = () => {
+const renderMealCards = (removeCardsFromDOM=false) => {
+    if (removeCardsFromDOM) removeCards(); 
     const meals = JSON.parse(localStorage.getItem("selections"));
+    if (!meals.length) noSelectionsMessage();
     let html = "";
     let cardContainer;
     for (let idx = 0; idx < meals.length; idx++) {
         if (idx % 2 === 0) {
             cardContainer = document.createElement("div");
-            cardContainer.className = "cardContainer";
+            cardContainer.className = "yourSelectionsCardContainer";
             html = "";
         }
         html += `
         <div class="card">
             <img src=${meals[idx].strMealThumb} class="card-img-top" alt=${meals[idx].strMeal}>
-            <i class="fa-solid fa-circle-plus fa-circle-not-selected fa-2xl ${meals[idx].strMeal}"></i>
-            <i class="fa-solid fa-circle fa-2xl"></i>
+            <i class="fa-solid fa-trash-can fa-md ${meals[idx].strMeal}"></i>
+            <i class="circle-yellow fa-solid fa-circle fa-xl"></i>
             <h5 class="card-title">${meals[idx].strMeal}</h5>
             <button class="btn btn-warning" value="${meals[idx].strMeal}">Time to Cook</button>
         </div>`;
@@ -190,24 +190,31 @@ const renderMealCards = () => {
     if (html) renderCardContainer(cardContainer, html);
 }
 
+const selectionsDelete = event => {
+    const classString = event.target.className.split(" ");
+    if (classString[1] === "fa-trash-can") {
+        const itemName = classString.slice(3).join(" ");
+        removeMealFromSelections(itemName);
+        renderMealCards(true);
+        renderShoppingList();
+    }
+}
+
+const renderCardContainer = (cardContainer, htmlString) => {
+    cardContainer.innerHTML = htmlString;
+    cardContainer.addEventListener("click", selectionsDelete);
+    // cardContainer.addEventListener("click", displayMeal);
+    selectionsContainer.appendChild(cardContainer);
+}
+
 const onPageVisit = async () => {
     if (localStorage.getItem("selections")) {
         removeSelectionDuplicates();
         renderMealCards();
-        await renderShoppingList();
+        renderShoppingList();   
     } else {
-        // cardContainer.innerHTML = "<h5>Please visit <a href="../index.html">home</a> page to select a few meals</h5>"
-        // shoppingList.innerHTML = "<p>No ingredients to display</p>"
+        noSelectionsMessage();
     }
 }
 
-
-
-
-
-
-
-// data.results is an array of parse ingredients
-// each object element has key ingredientParsed
-// traverse data.results and pull off following keys
-// ingredientParsed.product, ingredientParsed.quantity, ingredientParsed.unit
+onPageVisit();
