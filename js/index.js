@@ -138,7 +138,7 @@ const searchForMeals = async event => {
 }
 
 
-searchBtn.addEventListener("click", searchForMeals, event);
+searchBtn.addEventListener("click", searchForMeals);
 
 
 const onPageVisit = async () => {
@@ -149,42 +149,6 @@ const onPageVisit = async () => {
 
 onPageVisit();
 
-
-/* 
-selected
-<i class="fa-solid fa-circle-plus fa-2xl"></i>
-<i class="fa-solid fa-circle fa-2xl"></i>
-
-unselected
-<i class="fa-solid fa-circle-plus fa-circle-not-selected fa-2xl"></i>
-<i class="fa-solid fa-circle fa-2xl"></i>
-*/
-
-// data.meals is an array of recipes
-// traverse data.meals and retrieve following keys
-// strIngredient1 -> strIngredient20 - loop until null or empty string
-// strMeasure1 -> strMeasure20 - loop until falsey
-// strMeasure1 goes with strIngredient1
-// strMeal is name of meal
-// strMealThumb is url of meal image
-// strInstructions is cooking method description
-
-//     for (let idx = 0; idx < 6; idx++) {
-//         ingredientList = [...ingredientList, ...createIngredientStrings(data.meals[idx])[0]];
-//         ingredientBullets = [...ingredientBullets, ...createIngredientStrings(data.meals[idx])[1]];
-//     }
-    // console.log(ingredientList);
-
-    
-
-// =================== USING STORAGE WITH CARDS =================================
-
-// when rendering cards, need to add a value attribute to modal button that is equal to meal name aka meal.strMeal
-// once clicked, use that value to retrive the data object from storage
-// const card = document.querySelector(".card");
-// card.addEventListener("click", event => {
-//     const itemObj = JSON.parse(sessionStorage.getItem(event.target.attributes.value.value));
-// })
 
 
 // ======================= CATEGORY SEARCH ======================================
