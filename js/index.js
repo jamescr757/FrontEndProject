@@ -116,9 +116,9 @@ const renderFooter = (addMargin=false) => {
         <span class="copyright">© 2022 Recipe Box</span>
     </div>
     <ul class="devTeam">
-        <li>  <i class="bi bi-linkedin"> </i>  <i class="bi bi-github"></i> James Riddle</li>
-        <li>  <i class="bi bi-linkedin"> </i>  <i class="bi bi-github"></i> Chloe Wieser</li>
-        <li>  <i class="bi bi-linkedin"></i>  <i class="bi bi-github"></i> Veronica Taucci</li>
+        <li><i class="bi bi-github"></i> James Riddle</li>
+        <li><i class="bi bi-github"></i> Chloe Wieser</li>
+        <li><i class="bi bi-github"></i> Veronica Taucci</li>
     </ul>`;
     if (addMargin) footerTag.className = "mt-5"
     document.body.appendChild(footerTag);
