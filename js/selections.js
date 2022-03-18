@@ -174,15 +174,13 @@ const renderMealTitle = meal => {
     document.body.appendChild(titleTag);
 }
 
-const renderMealImageAndMethod = meal => {
+const renderMealImage = meal => {
     const container = document.createElement("div");
     container.className = "mealPrep";
     container.innerHTML = `
     <img src="${meal.strMealThumb}" class="prepImage2 card-img-top mb-4" alt="${meal.strMeal}">
     <div class="imgList">
         <img src="${meal.strMealThumb}" class="prepImage card-img-top" alt="${meal.strMeal}"> 
-        <p class="method">Method</p>
-        <p class="mealMethod">${meal.strInstructions}</p>
     </div>`;
     document.body.appendChild(container);
 }
@@ -197,13 +195,21 @@ const renderIngredientList = meal => {
     container.appendChild(listContainer);
 }
 
+const renderMealMethod = meal => {
+    const pDiv = document.createElement("div");
+    pDiv.className = "mealMethod";
+    pDiv.innerHTML = `<p class="method">Method</p><p class="methodPTag">${meal.strInstructions}</p>`;
+    document.body.appendChild(pDiv);
+}
+
 const displayMeal = event => {
     if (event.target.attributes && event.target.attributes.value) {
         clearMainContent();
         const mealObj = retrieveMealFromStorage(event);
         renderMealTitle(mealObj);
-        renderMealImageAndMethod(mealObj);
+        renderMealImage(mealObj);
         renderIngredientList(mealObj);
+        renderMealMethod(mealObj);
         renderFooter();
     }
 }
