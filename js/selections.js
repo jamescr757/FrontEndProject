@@ -152,11 +152,14 @@ const renderFooter = (addMargin=false) => {
         <li><a class="apiLink" href="https://www.themealdb.com/">TheMealDB</a></li>
         <li><a class="apiLink" href="https://zestfuldata.com/">Zestful</a></li>
     </ul>
-    <span class="copyright">© 2022 Recipe Box</span>
+    <div class="centerFooter">
+        <a class="backToTop backToTopLink" href="#headerImage">Back to Top</a>
+        <span class="copyright">© 2022 Recipe Box</span>
+    </div>
     <ul class="devTeam">
-        <li>  <i class="bi bi-linkedin"> </i>  <i class="bi bi-github"></i> James Riddle</li>
-        <li>  <i class="bi bi-linkedin"> </i>  <i class="bi bi-github"></i> Chloe Wieser</li>
-        <li>  <i class="bi bi-linkedin"></i>  <i class="bi bi-github"></i> Veronica Taucci</li>
+        <li><i class="bi bi-github"></i> James Riddle</li>
+        <li><i class="bi bi-github"></i> Chloe Wieser</li>
+        <li><i class="bi bi-github"></i> Veronica Taucci</li>
     </ul>`;
     if (addMargin) footerTag.className = "mt-5"
     document.body.appendChild(footerTag);
@@ -174,15 +177,13 @@ const renderMealTitle = meal => {
     document.body.appendChild(titleTag);
 }
 
-const renderMealImageAndMethod = meal => {
+const renderMealImage = meal => {
     const container = document.createElement("div");
     container.className = "mealPrep";
     container.innerHTML = `
     <img src="${meal.strMealThumb}" class="prepImage2 card-img-top mb-4" alt="${meal.strMeal}">
     <div class="imgList">
         <img src="${meal.strMealThumb}" class="prepImage card-img-top" alt="${meal.strMeal}"> 
-        <p class="method">Method</p>
-        <p class="mealMethod">${meal.strInstructions}</p>
     </div>`;
     document.body.appendChild(container);
 }
@@ -197,13 +198,21 @@ const renderIngredientList = meal => {
     container.appendChild(listContainer);
 }
 
+const renderMealMethod = meal => {
+    const pDiv = document.createElement("div");
+    pDiv.className = "mealMethod";
+    pDiv.innerHTML = `<p class="method">Method</p><p class="methodPTag">${meal.strInstructions}</p>`;
+    document.body.appendChild(pDiv);
+}
+
 const displayMeal = event => {
     if (event.target.attributes && event.target.attributes.value) {
         clearMainContent();
         const mealObj = retrieveMealFromStorage(event);
         renderMealTitle(mealObj);
-        renderMealImageAndMethod(mealObj);
+        renderMealImage(mealObj);
         renderIngredientList(mealObj);
+        renderMealMethod(mealObj);
         renderFooter();
     }
 }

@@ -426,11 +426,20 @@ justify-content: center;
     line-height: 36px;
 }
 .mealMethod{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     line-height: 36px;
-    margin-top: 18px;
+    width: 100%;
+    padding-bottom: 18px;
+}
+.methodPTag {
+    width: 80vw;
+    max-width: 1000px;
+    margin-top: 0;
 }
 .method{
-    margin-top: 36px;
+    margin-top: 18px;
     font-size: 20px;
     font-weight: 500;
 }
@@ -470,5 +479,12 @@ justify-content: center;
     }
     .prepImage2{
         display: block;
+    }
+    .mealMethod{
+        width: auto;
+        margin: 0px 20px;
+    }
+    .method {
+        text-align: center;
     }
 }

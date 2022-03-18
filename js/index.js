@@ -28,8 +28,17 @@ const createIngredientBullets = meal => {
     return bullets;
 }
 
-const addMealToSelections = itemName => {
-    const itemObj = JSON.parse(sessionStorage.getItem(itemName));
+const checkForFullMeal = async mealObj => {
+    if (!("strInstructions" in mealObj)) {
+        const data = await fetchMeals(mealObj.strMeal);
+        return data.meals[0];
+    }
+    return mealObj;
+}
+
+const addMealToSelections = async itemName => {
+    let itemObj = JSON.parse(sessionStorage.getItem(itemName));
+    itemObj = await checkForFullMeal(itemObj);
     if (localStorage.getItem("selections")) {
         updateSelectionsInStorage(JSON.parse(localStorage.getItem("selections")), itemObj);
     } else {
@@ -70,10 +79,11 @@ const ingredientListHTML = (meal) => {
     return html.join("");
 }
 
-const displayRecipeInfo = event => {
+const displayRecipeInfo = async event => {
     if (event.target.attributes && event.target.attributes.value) {
-        const mealObj = retrieveMealFromStorage(event);
+        let mealObj = retrieveMealFromStorage(event);
         modalTitle.innerText = mealObj.strMeal;
+        mealObj = await checkForFullMeal(mealObj);
         modalBody.innerHTML = ingredientListHTML(mealObj);
         modalBody.innerHTML += `<p>${mealObj.strInstructions}</p>`;
     }
@@ -101,11 +111,14 @@ const renderFooter = (addMargin=false) => {
         <li><a class="apiLink" href="https://www.themealdb.com/">TheMealDB</a></li>
         <li><a class="apiLink" href="https://zestfuldata.com/">Zestful</a></li>
     </ul>
-    <span class="copyright">© 2022 Recipe Box</span>
+    <div class="centerFooter">
+        <a class="backToTop backToTopLink" href="#headerImage">Back to Top</a>
+        <span class="copyright">© 2022 Recipe Box</span>
+    </div>
     <ul class="devTeam">
-        <li>  <i class="bi bi-linkedin"> </i>  <i class="bi bi-github"></i> James Riddle</li>
-        <li>  <i class="bi bi-linkedin"> </i>  <i class="bi bi-github"></i> Chloe Wieser</li>
-        <li>  <i class="bi bi-linkedin"></i>  <i class="bi bi-github"></i> Veronica Taucci</li>
+        <li><i class="bi bi-github"></i> James Riddle</li>
+        <li><i class="bi bi-github"></i> Chloe Wieser</li>
+        <li><i class="bi bi-github"></i> Veronica Taucci</li>
     </ul>`;
     if (addMargin) footerTag.className = "mt-5"
     document.body.appendChild(footerTag);
@@ -116,10 +129,20 @@ const fetchMeals = async mealToSearch => {
     return await response.json();
 }
 
-const renderMealCards = data => {
+const fetchMealsByCategory = async category => {
+    let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+    return await response.json();
+}
+
+const fetchMealsByArea = async area => {
+    let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`);
+    return await response.json();
+}
+
+const renderMealCards = meals => {
     let html = "";
     let cardContainer;
-    for (let idx = 0; idx < data.meals.length; idx++) {
+    for (let idx = 0; idx < meals.length; idx++) {
         if (idx % 3 === 0) {
             cardContainer = document.createElement("div");
             cardContainer.className = "cardContainer";
@@ -127,33 +150,44 @@ const renderMealCards = data => {
         }
         html += `
         <div class="card">
-            <img src=${data.meals[idx].strMealThumb} class="card-img-top" alt=${data.meals[idx].strMeal}>
-            <i class="fa-solid fa-circle-plus fa-circle-not-selected fa-2xl ${data.meals[idx].strMeal}"></i>
+            <img src=${meals[idx].strMealThumb} class="card-img-top" alt=${meals[idx].strMeal}>
+            <i class="fa-solid fa-circle-plus fa-circle-not-selected fa-2xl ${meals[idx].strMeal}"></i>
             <i class="fa-solid fa-circle fa-2xl"></i>
-            <h5 class="card-title">${data.meals[idx].strMeal}</h5>
-            <button class="btn btn-warning" value="${data.meals[idx].strMeal}" data-toggle="modal" data-target="#myModal">View Recipe</button>
+            <h5 class="card-title">${meals[idx].strMeal}</h5>
+            <button class="btn btn-warning" value="${meals[idx].strMeal}" data-toggle="modal" data-target="#myModal">View Recipe</button>
         </div>`;
         if ((idx + 1) % 3 === 0) renderCardContainer(cardContainer, html);
     }
     if (html) renderCardContainer(cardContainer, html);
 
-    for (const meal of data.meals) {
-        sessionStorage.setItem(meal.strMeal, JSON.stringify(meal))
+    for (const meal of meals) {
+        sessionStorage.setItem(meal.strMeal, JSON.stringify(meal));
     }
+}
+
+const determineBestSearchResults = dataList => {
+    let data = [];
+    for (const result of dataList) {
+        if (result.meals && result.meals.length > data.length) data = result.meals;
+    }
+    return data;
 }
 
 const searchForMeals = async event => {
     event.preventDefault();
     const userInput = userSearch.value.trim();
+    const dataList = new Array(3).fill(0);
     if (userInput) {
-        const data = await fetchMeals(userInput);
-        console.log(data);
+        dataList[0] = await fetchMeals(userInput);
+        dataList[1] = await fetchMealsByCategory(userInput);
+        dataList[2] = await fetchMealsByArea(userInput);
+        const data = determineBestSearchResults(dataList);
         removeCardsAndFooter();
-        if (!data.meals) {
+        if (!data.length) {
             searchText.innerText = `Search produced no results. Please try something different.`;
             renderFooter(true);
         } else {
-            searchText.innerText = "Search or scroll for inspiration to add to your recipe box!";
+            searchText.innerText = "Search or scroll to add selections and create your grocery list.";
             renderMealCards(data);
             renderFooter();
         }
@@ -167,7 +201,7 @@ searchBtn.addEventListener("click", searchForMeals);
 const onPageVisit = async () => {
     const mealToSearch = pickRandomMeal();
     const data = await fetchMeals(mealToSearch);
-    renderMealCards(data);
+    renderMealCards(data.meals);
     renderFooter();
 }
 
