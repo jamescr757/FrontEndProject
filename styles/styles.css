@@ -36,8 +36,6 @@ body{
   justify-content: center;
 }
 
-/* removed extra bracket */
-
 .nav-item{
     margin: 0px 60px 0px 60px;
     font-size: 25px;
