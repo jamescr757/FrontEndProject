@@ -7,7 +7,7 @@ const footerTag = document.querySelector("footer");
 const createIngredientList = meal => {
     const list = [];
     let count = 1;
-    while (meal[`strMeasure${count}`] && meal[`strMeasure${count}`].trim()) {
+    while (meal[`strMeasure${count}`] && meal[`strMeasure${count}`].trim() && list.length < 100) {
         list.push(meal[`strMeasure${count}`].trim() + " " + meal[`strIngredient${count}`]);
         count++;
     }
@@ -244,6 +244,10 @@ const renderMealCards = (removeCardsFromDOM=false) => {
         if ((idx + 1) % 2 === 0) renderCardContainer(cardContainer, html);
     }
     if (html) renderCardContainer(cardContainer, html);
+
+    for (const meal of meals) {
+        sessionStorage.setItem(meal.strMeal, JSON.stringify(meal))
+    }
 }
 
 const selectionsDelete = event => {

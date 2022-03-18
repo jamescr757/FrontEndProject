@@ -16,11 +16,13 @@ const updateSelectionsInStorage = (selections, item) => {
     localStorage.setItem("selections", JSON.stringify(selections));
 }
 
+const capitalize = string => string[0].toUpperCase() + string.slice(1);
+
 const createIngredientBullets = meal => {
     const bullets = [];
     let count = 1;
     while (meal[`strMeasure${count}`] && meal[`strMeasure${count}`].trim()) {
-        bullets.push(meal[`strIngredient${count}`].trim() + " - " + meal[`strMeasure${count}`]);
+        bullets.push(capitalize(meal[`strIngredient${count}`].trim()) + " - " + meal[`strMeasure${count}`]);
         count++;
     }
     return bullets;
