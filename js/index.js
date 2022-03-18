@@ -16,11 +16,13 @@ const updateSelectionsInStorage = (selections, item) => {
     localStorage.setItem("selections", JSON.stringify(selections));
 }
 
+const capitalize = string => string[0].toUpperCase() + string.slice(1);
+
 const createIngredientBullets = meal => {
     const bullets = [];
     let count = 1;
     while (meal[`strMeasure${count}`] && meal[`strMeasure${count}`].trim()) {
-        bullets.push(meal[`strIngredient${count}`].trim() + " - " + meal[`strMeasure${count}`]);
+        bullets.push(capitalize(meal[`strIngredient${count}`].trim()) + " - " + meal[`strMeasure${count}`]);
         count++;
     }
     return bullets;
@@ -77,10 +79,11 @@ const displayRecipeInfo = event => {
     }
 }
 
-const removeCards = () => {
+const removeCardsAndFooter = () => {
     while (document.querySelector(".cardContainer")) {
         document.body.removeChild(document.querySelector(".cardContainer"))
     }
+    document.body.removeChild(document.querySelector("footer"));
 }
 
 const renderCardContainer = (cardContainer, htmlString) => {
@@ -88,6 +91,24 @@ const renderCardContainer = (cardContainer, htmlString) => {
     cardContainer.addEventListener("click", changeIconAndUpdateSelections);
     cardContainer.addEventListener("click", displayRecipeInfo);
     document.body.appendChild(cardContainer);
+}
+
+const renderFooter = (addMargin=false) => {
+    const footerTag = document.createElement("footer");
+    footerTag.innerHTML = `
+    <ul class="api">
+        APIs used:
+        <li><a class="apiLink" href="https://www.themealdb.com/">TheMealDB</a></li>
+        <li><a class="apiLink" href="https://zestfuldata.com/">Zestful</a></li>
+    </ul>
+    <span class="copyright">© 2022 Recipe Box</span>
+    <ul class="devTeam">
+        <li>  <i class="bi bi-linkedin"> </i>  <i class="bi bi-github"></i> James Riddle</li>
+        <li>  <i class="bi bi-linkedin"> </i>  <i class="bi bi-github"></i> Chloe Wieser</li>
+        <li>  <i class="bi bi-linkedin"></i>  <i class="bi bi-github"></i> Veronica Taucci</li>
+    </ul>`;
+    if (addMargin) footerTag.className = "mt-5"
+    document.body.appendChild(footerTag);
 }
 
 const fetchMeals = async mealToSearch => {
@@ -127,12 +148,14 @@ const searchForMeals = async event => {
     if (userInput) {
         const data = await fetchMeals(userInput);
         console.log(data);
-        removeCards();
+        removeCardsAndFooter();
         if (!data.meals) {
             searchText.innerText = `Search produced no results. Please try something different.`;
+            renderFooter(true);
         } else {
             searchText.innerText = "Search or scroll for inspiration to add to your recipe box!";
             renderMealCards(data);
+            renderFooter();
         }
     }
 }
@@ -145,34 +168,8 @@ const onPageVisit = async () => {
     const mealToSearch = pickRandomMeal();
     const data = await fetchMeals(mealToSearch);
     renderMealCards(data);
+    renderFooter();
 }
 
 onPageVisit();
-
-
-
-// ======================= CATEGORY SEARCH ======================================
-
-// const categorySearch = "Vegetarian";
-// fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categorySearch}`)
-// .then(response => response.json())
-// .then(data => {
-//     console.log(data);
-// })
-
-// data.meals is an array of meals
-// each object element only has 3 keys - idMeal, strMeal, strMealThumb
-// need to use meal search api in combination to retrieve recipe
-
-
-// ======================= AREA SEARCH ======================================
-
-// const areaSearch = "Canadian";
-// fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${areaSearch}`)
-// .then(response => response.json())
-// .then(data => {
-//     console.log(data);
-// })
-
-// same response type/structure as category search
 
