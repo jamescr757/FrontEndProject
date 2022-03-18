@@ -171,30 +171,3 @@ const onPageVisit = async () => {
 
 onPageVisit();
 
-
-
-// ======================= CATEGORY SEARCH ======================================
-
-// const categorySearch = "Vegetarian";
-// fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categorySearch}`)
-// .then(response => response.json())
-// .then(data => {
-//     console.log(data);
-// })
-
-// data.meals is an array of meals
-// each object element only has 3 keys - idMeal, strMeal, strMealThumb
-// need to use meal search api in combination to retrieve recipe
-
-
-// ======================= AREA SEARCH ======================================
-
-// const areaSearch = "Canadian";
-// fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${areaSearch}`)
-// .then(response => response.json())
-// .then(data => {
-//     console.log(data);
-// })
-
-// same response type/structure as category search
-
