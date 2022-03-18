@@ -61,14 +61,9 @@
 <br />
 
 ## Developer Team
-<br />
-<br />
-James Riddle [GitHub](https://github.com/jamescr757/)
-<br />
-<br />
-Veronica Taucci [GitHub](https://github.com/veronicataucci/)
-<br />
-<br />
-Chloe Wieser [GitHub](https://github.com/chloeWieser/)
+
+- James Riddle - [GitHub](https://github.com/jamescr757/)
+- Veronica Taucci - [GitHub](https://github.com/veronicataucci/)
+- Chloe Wieser - [GitHub](https://github.com/chloeWieser/)
 
 
