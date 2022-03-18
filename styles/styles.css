@@ -15,7 +15,7 @@ body{
     object-position: 0px 0px;
     margin-top: -100px;
     position: absolute;
-    z-index: 5;
+    z-index: 1;
 
 }
 
@@ -23,7 +23,7 @@ body{
     height: 100%;
     width: 100%;
     position: absolute;
-    z-index: 10;
+    z-index: 2;
     color: black;
     text-align: center;
     line-height: 900px;
@@ -139,12 +139,7 @@ h5{
 
 
 
-@media (max-width: 480px){
-.heroImage{
-    margin-top: 0px;
-    margin-left: -600px;
-}
-}
+
 
 .bi-plus-circle{
     color: tomato;
@@ -190,6 +185,23 @@ h5{
     line-height: 35px;
  }
 
+.hoverVisit{
+    color: white;
+}
+
+.hoverVisit:visited{
+    color: white;
+}
+
+.hoverVisit:hover{
+    color: rgb(236, 182, 4);
+}
+
+ .bi-github{
+    margin-right:8px;
+    color: white;
+}
+
  .api{
     list-style-type: none;
     margin: 24px 80px;
@@ -204,9 +216,67 @@ h5{
     color:rgb(236, 182, 4);
 }
 
+
+.centerFooter{
+    align-self: center;
+}
+
 .copyright{
     padding-bottom: 10px;
     align-self: center;
+}
+
+.backToTop{
+    padding: 10px 0px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    display: block;
+    color: white;
+}
+
+.backToTopLink{
+    color: white;    
+}
+
+.backToTopLink:hover{
+    color:rgb(236, 182, 4);
+}
+
+@media only screen and (max-width: 480px){
+    
+    .heroImage{
+        margin-top: 0px;
+        margin-left: -600px;
+    }
+    footer{
+        display: flex;
+        flex-direction: column;
+        background-color:#343a40;
+        color: white;
+    }
+    .devTeam{
+        display: none;
+    }
+    .api{
+        display: none;
+    }
+    .copyright{
+        padding: 10px 0px;
+        align-self: center;
+        width: 100%;
+        text-align: center;
+    }
+    .backToTop{
+        padding: 10px 0px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+        display: block;
+        color: white;
+    }
 }
 
  .navbar-nav{
@@ -313,14 +383,6 @@ justify-content: center;
     flex-direction: row;
 }
 
-@media only screen and (max-width: 1024px){
-    .yourSelectionsCardContainer{
-        align-items: center;
-        flex-direction: column;
-        margin-top: 16px;
-    }
-}
-
 .groceryList{
     min-width: 400px;
     /* added height 100 */
@@ -383,6 +445,11 @@ justify-content: center;
 }
 
 @media only screen and (max-width: 1024px){
+    .yourSelectionsCardContainer{
+        align-items: center;
+        flex-direction: column;
+        margin-top: 16px;
+    }
     .mealPrep {
         flex-direction: column;
         padding: 20px;
