@@ -349,10 +349,6 @@ justify-content: center;
     z-index: 1;
 } 
 
-<<<<<<< HEAD
-/* 3rd page */
-=======
->>>>>>> main
 .mealPrep {
     display: flex;
     justify-content: center;
@@ -370,6 +366,7 @@ justify-content: center;
 .mealMethod{
     line-height: 36px;
     margin-top: 18px;
+    width: 60vw;
 }
 .method{
     margin-top: 36px;
@@ -388,30 +385,6 @@ justify-content: center;
 
 @media only screen and (max-width: 1024px){
     .mealPrep {
-<<<<<<< HEAD
-    flex-direction: column;
-    padding: 20px;
-    
-}
-.imgList{
-    width: 100%;
-    order: 2;
-}
-.ingredients{
-    width: 100%;
-    margin: 0;
-}
-.mealName{
-    margin: 25px 0px 0px;
-}
-.prepImage{
-display: none;
-}
-.prepImage2{
-    display: block;
-}
-}
-=======
         flex-direction: column;
         padding: 20px;
     }
@@ -432,5 +405,6 @@ display: none;
     .prepImage2{
         display: block;
     }
+    .mealMethod{
+        width: auto;}
 }
->>>>>>> main
