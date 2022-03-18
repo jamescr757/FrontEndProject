@@ -236,7 +236,7 @@ const renderMealCards = (removeCardsFromDOM=false) => {
         html += `
         <div class="card">
             <img src=${meals[idx].strMealThumb} class="card-img-top" alt=${meals[idx].strMeal}>
-            <i class="fa-solid fa-trash-can fa-md ${meals[idx].strMeal}"></i>
+            <i class="fa-solid fa-minus fa-md ${meals[idx].strMeal}"></i>
             <i class="circle-yellow fa-solid fa-circle fa-xl"></i>
             <h5 class="card-title">${meals[idx].strMeal}</h5>
             <button class="btn btn-warning" value="${meals[idx].strMeal}">Time to Cook</button>
@@ -252,7 +252,7 @@ const renderMealCards = (removeCardsFromDOM=false) => {
 
 const selectionsDelete = event => {
     const classString = event.target.className.split(" ");
-    if (classString[1] === "fa-trash-can") {
+    if (classString[1] === "fa-minus") {
         const itemName = classString.slice(3).join(" ");
         removeMealFromSelections(itemName);
         renderMealCards(true);
