@@ -108,17 +108,19 @@ const renderFooter = (addMargin=false) => {
     footerTag.innerHTML = `
     <ul class="api">
         APIs used:
-        <li><a class="apiLink" href="https://www.themealdb.com/">TheMealDB</a></li>
-        <li><a class="apiLink" href="https://zestfuldata.com/">Zestful</a></li>
+        <li><a class="apiLink" href="https://www.themealdb.com/" target="_blank">TheMealDB</a></li>
+        <li><a class="apiLink" href="https://zestfuldata.com/" target="_blank">Zestful</a></li>
     </ul>
     <div class="centerFooter">
         <a class="backToTop backToTopLink" href="#headerImage">Back to Top</a>
         <span class="copyright">© 2022 Recipe Box</span>
     </div>
     <ul class="devTeam">
-        <li><i class="bi bi-github"></i> James Riddle</li>
-        <li><i class="bi bi-github"></i> Chloe Wieser</li>
-        <li><i class="bi bi-github"></i> Veronica Taucci</li>
+        <li><a class="bi bi-github hoverVisit" href="https://github.com/jamescr757/" target="_blank"></a> <a class="hoverVisit" href="https://jamescr757.github.io/Portfolio/"  target="_blank">James Riddle</a></li>
+
+        <li><a class="bi bi-github hoverVisit" href="https://github.com/chloeWieser/" target="_blank"></a> <a class="hoverVisit" href="https://github.com/chloeWieser/" target="_blank">Chloe Wieser</a></li>
+
+        <li><a class="bi bi-github hoverVisit" href="https://github.com/veronicataucci/" target="_blank"></a> <a class="hoverVisit" href="https://github.com/veronicataucci/" target="_blank">Veronica Taucci</a></li>
     </ul>`;
     if (addMargin) footerTag.className = "mt-5"
     document.body.appendChild(footerTag);
