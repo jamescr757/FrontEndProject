@@ -227,7 +227,7 @@ const removeMealFromSelections = itemName => {
 
 const noSelectionsMessage = () => {
     h5tag = document.createElement("h5");
-    h5tag.innerHTML = `<h5>Please visit our <a href="../index.html">home</a> page to select a few meals</h5>`;
+    h5tag.innerHTML = `Please visit our <a href="../index.html">home</a> page to select a few meals`;
     selectionsContainer.appendChild(h5tag);
     groceryListTag.innerHTML = "<p>No ingredients to display</p>";
 }
