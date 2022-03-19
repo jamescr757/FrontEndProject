@@ -210,6 +210,7 @@ const removeMealFromSelections = itemName => {
     let selections = JSON.parse(localStorage.getItem("selections"));
     selections = selections.filter(mealObj => mealObj.strMeal !== itemName);
     localStorage.setItem("selections", JSON.stringify(selections));
+    localStorage.removeItem(itemName);
 }
 
 const noSelectionsMessage = () => {
