@@ -35,19 +35,6 @@ const createShoppingListObj = item => {
     }
 }
 
-const removeSelectionDuplicates = () => {
-    let selections = JSON.parse(localStorage.getItem("selections"));
-    const selectionsHash = {};
-    for (const meal of selections) {
-        if (!(meal.strMeal in selectionsHash)) selectionsHash[meal.strMeal] = meal;
-    }
-    selections = [];
-    for (const meal in selectionsHash) {
-        selections.push(selectionsHash[meal]);
-    }
-    localStorage.setItem("selections", JSON.stringify(selections));
-}
-
 const renderQuantity = value => !value ? "" : Math.round(value * 100) / 100;
 
 const renderUnit = (quantity, unit) => {
@@ -223,11 +210,12 @@ const removeMealFromSelections = itemName => {
     let selections = JSON.parse(localStorage.getItem("selections"));
     selections = selections.filter(mealObj => mealObj.strMeal !== itemName);
     localStorage.setItem("selections", JSON.stringify(selections));
+    localStorage.removeItem(itemName);
 }
 
 const noSelectionsMessage = () => {
     h5tag = document.createElement("h5");
-    h5tag.innerHTML = `<h5>Please visit our <a href="../index.html">home</a> page to select a few meals</h5>`;
+    h5tag.innerHTML = `Please visit our <a href="../index.html">home</a> page to select a few meals`;
     selectionsContainer.appendChild(h5tag);
     groceryListTag.innerHTML = "<p>No ingredients to display</p>";
 }
@@ -280,7 +268,6 @@ const renderCardContainer = (cardContainer, htmlString) => {
 
 const onPageVisit = async () => {
     if (localStorage.getItem("selections")) {
-        removeSelectionDuplicates();
         renderMealCards();
         renderShoppingList();   
     } else {

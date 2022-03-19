@@ -279,9 +279,9 @@ h5{
     }
 }
 
- .navbar-nav{
-display: flex;
-justify-content: center;
+.navbar-nav{
+    display: flex;
+    justify-content: center;
 }
 
 .left-aligned{
