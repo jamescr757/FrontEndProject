@@ -35,19 +35,6 @@ const createShoppingListObj = item => {
     }
 }
 
-const removeSelectionDuplicates = () => {
-    let selections = JSON.parse(localStorage.getItem("selections"));
-    const selectionsHash = {};
-    for (const meal of selections) {
-        if (!(meal.strMeal in selectionsHash)) selectionsHash[meal.strMeal] = meal;
-    }
-    selections = [];
-    for (const meal in selectionsHash) {
-        selections.push(selectionsHash[meal]);
-    }
-    localStorage.setItem("selections", JSON.stringify(selections));
-}
-
 const renderQuantity = value => !value ? "" : Math.round(value * 100) / 100;
 
 const renderUnit = (quantity, unit) => {
@@ -280,7 +267,6 @@ const renderCardContainer = (cardContainer, htmlString) => {
 
 const onPageVisit = async () => {
     if (localStorage.getItem("selections")) {
-        removeSelectionDuplicates();
         renderMealCards();
         renderShoppingList();   
     } else {

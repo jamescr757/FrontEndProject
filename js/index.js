@@ -44,12 +44,14 @@ const addMealToSelections = async itemName => {
     } else {
         updateSelectionsInStorage([], itemObj);
     }
+    localStorage.setItem(itemName, "1");
 }
 
 const removeMealFromSelections = itemName => {
     let selections = JSON.parse(localStorage.getItem("selections"));
     selections = selections.filter(mealObj => mealObj.strMeal !== itemName);
     localStorage.setItem("selections", JSON.stringify(selections));
+    localStorage.removeItem(itemName);
 }
 
 const changeIconAndUpdateSelections = event => {
@@ -141,6 +143,11 @@ const fetchMealsByArea = async area => {
     return await response.json();
 }
 
+const selectedOrNot = mealName => {
+    if (localStorage.getItem(mealName)) return "";
+    return "fa-circle-not-selected ";
+}
+
 const renderMealCards = meals => {
     let html = "";
     let cardContainer;
@@ -153,7 +160,7 @@ const renderMealCards = meals => {
         html += `
         <div class="card">
             <img src=${meals[idx].strMealThumb} class="card-img-top" alt=${meals[idx].strMeal}>
-            <i class="fa-solid fa-circle-plus fa-circle-not-selected fa-2xl ${meals[idx].strMeal}"></i>
+            <i class="fa-solid fa-circle-plus ${selectedOrNot(meals[idx].strMeal)}fa-2xl ${meals[idx].strMeal}"></i>
             <i class="fa-solid fa-circle fa-2xl"></i>
             <h5 class="card-title">${meals[idx].strMeal}</h5>
             <button class="btn btn-warning" value="${meals[idx].strMeal}" data-toggle="modal" data-target="#myModal">View Recipe</button>
